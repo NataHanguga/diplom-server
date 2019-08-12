@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 
 const teacherRoutes = require('./api/routes/teachers')
 const studentRoutes = require('./api/routes/students')
+
 const url = 
     'mongodb+srv://admin:'+ 
     process.env.MONGO_ATLAS_PW +
