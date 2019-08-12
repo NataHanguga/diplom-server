@@ -13,6 +13,7 @@ const url =
     '@workers-hya0b.mongodb.net/test?retryWrites=true&w=majority'
 
 mongoose.connect(url, {useNewUrlParser: true}, (err, db) => {
+    console.log(url)
     if (err) console.log('cannot connect to db')
     else console.log('create connection to db')
 })
