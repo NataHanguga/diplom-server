@@ -1,0 +1,23 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "MONGO_ATLAS_PW": "ptaha2102",
+    "PORT": "3000"
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "diplom-server",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
