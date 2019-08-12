@@ -1,0 +1,7 @@
+{
+    "env": {
+        "MONGO_ATLAS_PW": "ptaha2102",
+        "PORT": "3000",
+        "PAY": "50"
+    }
+}
