@@ -1,5 +1,42 @@
 const mongoose = require('mongoose')
 const Teacher = require('../models/teacher')
+const { progressBar, payedMonth } = require('../utils/progressBar')
+
+function getPayed(students) {
+    let payed = [0, 0]
+    if (students.length) {
+        students.forEach((student) => {
+            payedMonth(progressBar(student)) ? payed[0]++ : payed[1]++
+        });
+    }
+    console.log(payed);
+    return payed;
+}
+function customTeacherArray(result) {
+    let teachers = []
+    result.forEach(teacher => {
+        let arr = []
+        teacher.students.forEach(student => {
+            arr.push({
+                id: student._id,
+                fullName: student.fullName,
+                pay: student.pay,
+                classNumber: student.classNumber,
+                studentType: student.studentType,
+                progress: progressBar(student),
+                payed: payedMonth(progressBar(student))
+            })
+        })
+
+        teachers.push({
+            name: teacher.name,
+            _id: teacher._id,
+            students: arr,
+            payed: getPayed(teacher.students)
+        })
+    })
+    return teachers
+}
 
 module.exports = {
     getTeachers(req, res, next) {
@@ -9,10 +46,7 @@ module.exports = {
             .exec()
             .then(result => {
                 if (result.length >= 0) {
-                    console.log(result)
-                    res.status(200).json({
-                        result
-                    })
+                    res.status(200).json(customTeacherArray(result))
                 } else {
                     res.status(404).json({
                         message: 'No enteries found'
@@ -47,9 +81,9 @@ module.exports = {
         const { newName } = req.body
         Teacher
             .findOneAndUpdate(
-                { _id: teacherId }, 
-                { $set: { name: newName } }, 
-                { 'new': true}
+                { _id: teacherId },
+                { $set: { name: newName } },
+                { 'new': true }
             )
             .select('name students _id')
             .exec()

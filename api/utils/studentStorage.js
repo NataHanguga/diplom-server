@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { progressBar, payedMonth } = require('../utils/progressBar')
 const Teacher = require('../models/teacher')
 
-function customStudentArray(result, month) {
+function customStudentArray(result) {
     let arr = [];
     result.students.forEach(student => {
         arr.push({
@@ -12,7 +12,7 @@ function customStudentArray(result, month) {
             classNumber: student.classNumber,
             studentType: student.studentType,
             progress: progressBar(student),
-            payed: payedMonth(month, progressBar(student))
+            payed: payedMonth(progressBar(student))
         })
     })
 
@@ -46,7 +46,7 @@ module.exports = {
 
     createStudent(req, res, next) {
         const { teacherId } = req.params
-        const { fullName, startDate, pay, classNumber, studentType, month } = req.body
+        const { fullName, startDate, pay, classNumber, studentType } = req.body
         Teacher
             .findByIdAndUpdate(
                 teacherId,
@@ -68,7 +68,7 @@ module.exports = {
             .then(result => {
                 if (result)
                     res.status(200).json({
-                        studentsArr: customStudentArray(result, month)
+                        studentsArr: customStudentArray(result)
                     })
                 else
                     res.status(404).json({
