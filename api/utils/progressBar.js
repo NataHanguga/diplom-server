@@ -47,14 +47,14 @@ function switchMonth(month) {
         case 2: { index = 5; break }
         case 3: { index = 6; break }
         case 4: { index = 7; break }
-        case 8: { index = 0; break }
         case 9: { index = 1; break }
         case 10: { index = 2; break }
-        case 11: { index = 3; break }
-        case 0:
+        case 11:
+        case 0: { index = 3; break }
         case 5:
         case 6:
-        case 7: { index = null; break }
+        case 7:
+        case 8: { index = 0; break }
     }
     return index
 }
@@ -107,15 +107,12 @@ module.exports = {
         return arr;
     },
 
-    payedMonth(month, progress) {
-       const m = month || (new Date()).getMonth()
-       console.log(m)
-        return switchMonth(m) !== null 
-        ? (progress[switchMonth(m)] === 50
-            ? true
-            : false) 
-        : false
+    payedMonth(progress) {
+        const month = (new Date()).getMonth()
 
+        return (progress[switchMonth(month)] === (50 || null)
+            ? true
+            : false)
     }
 
 

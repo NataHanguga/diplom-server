@@ -6,14 +6,12 @@ const mongoose = require('mongoose')
 
 const teacherRoutes = require('./api/routes/teachers')
 const studentRoutes = require('./api/routes/students')
-
 const url = 
     'mongodb+srv://admin:'+ 
     process.env.MONGO_ATLAS_PW +
     '@workers-hya0b.mongodb.net/test?retryWrites=true&w=majority'
 
 mongoose.connect(url, {useNewUrlParser: true}, (err, db) => {
-    console.log(url)
     if (err) console.log('cannot connect to db')
     else console.log('create connection to db')
 })
@@ -25,13 +23,9 @@ app.use(bodyParser.json())
 
 // cors
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Origin', 'PUT, POST, PATCH, GET, DELETE')
-        return res.status(200).json({})
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
     next()
 })
 

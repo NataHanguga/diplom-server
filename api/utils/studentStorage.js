@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { progressBar, payedMonth } = require('../utils/progressBar')
 const Teacher = require('../models/teacher')
 
-function customStudentArray(result, month) {
+function customStudentArray(result) {
     let arr = [];
     result.students.forEach(student => {
         arr.push({
@@ -12,7 +12,7 @@ function customStudentArray(result, month) {
             classNumber: student.classNumber,
             studentType: student.studentType,
             progress: progressBar(student),
-            payed: payedMonth(month, progressBar(student))
+            payed: payedMonth(progressBar(student))
         })
     })
 
@@ -84,7 +84,7 @@ module.exports = {
 
     editStudent(req, res, next) {
         const { teacherId, studentId } = req.params
-        const { fullName, startDate, pay, classNumber, studentType } = req.body
+        const { fullName, startDate, pay, classNumber, studentType, month } = req.body
         Teacher
             .findOneAndUpdate(
                 { _id: teacherId, students: { $elemMatch: { _id: studentId } } },
@@ -103,7 +103,7 @@ module.exports = {
             .then(result => {
                 if (result)
                     res.status(200).json({
-                        studentsArr: customStudentArray(result)
+                        studentsArr: customStudentArray(result, month)
                     })
                 else
                     res.status(404).json({
@@ -118,6 +118,8 @@ module.exports = {
 
     removeStudent(req, res, next) {
         const { teacherId, studentId } = req.params
+        const {month} = req.body
+
         Teacher
             .findOneAndUpdate(
                 { '_id': teacherId },
@@ -135,7 +137,7 @@ module.exports = {
             .then(result => {
                 if (result)
                     res.status(200).json({
-                        studentsArr: customStudentArray(result)
+                        studentsArr: customStudentArray(result, month)
                     })
                 else
                     res.status(404).json({
