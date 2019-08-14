@@ -3,13 +3,15 @@ const Teacher = require('../models/teacher')
 const { progressBar, payedMonth } = require('../utils/progressBar')
 
 function getPayed(students) {
-    let payed = [0, 0]
+    let payed = [0, 0, 0]
     if (students.length) {
         students.forEach((student) => {
-            payedMonth(progressBar(student)) ? payed[0]++ : payed[1]++
+            let pay = payedMonth(progressBar(student), student.studentType);
+             pay !== null 
+                ? ( pay ? payed[0]++ : payed[1]++)
+                : payed[2]++
         });
     }
-    console.log(payed);
     return payed;
 }
 function customTeacherArray(result) {
@@ -23,6 +25,7 @@ function customTeacherArray(result) {
                 pay: student.pay,
                 classNumber: student.classNumber,
                 studentType: student.studentType,
+                startDate: student.startDate,
                 progress: progressBar(student),
                 payed: payedMonth(progressBar(student))
             })

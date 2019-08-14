@@ -11,6 +11,7 @@ function customStudentArray(result) {
             pay: student.pay,
             classNumber: student.classNumber,
             studentType: student.studentType,
+            startDate: student.startDate,
             progress: progressBar(student),
             payed: payedMonth(progressBar(student))
         })
