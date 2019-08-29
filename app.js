@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 
 const teacherRoutes = require('./api/routes/teachers')
 const studentRoutes = require('./api/routes/students')
+const employeeRoutes = require('./api/routes/employee')
 const url = 
     'mongodb+srv://admin:'+ 
     process.env.MONGO_ATLAS_PW +
@@ -24,14 +25,22 @@ app.use(bodyParser.json())
 // cors
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
+    res.setHeader(
+        'Access-Control-Allow-Methods', 
+        'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader(
+        'Access-Control-Allow-Headers', 
+        'Access-Control-Allow-Headers, Origin,Accept, ' + 
+        'X-Requested-With, Content-Type, Access-Control-Request-Method,' +
+        'Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');
     next()
 })
 
 //connect routes 
 app.use('/teachers', teacherRoutes)
 app.use('/students', studentRoutes)
+app.use('/employee', employeeRoutes)
+
 
 // error hendler
 app.use((req, res, next) => {

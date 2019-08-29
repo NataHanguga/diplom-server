@@ -70,7 +70,6 @@ module.exports = {
             case 7:
             case 8: {
                 arr = customArray(student, 0)
-                console.log(arr, student)
                 break
             }
             case 9: {
@@ -107,12 +106,14 @@ module.exports = {
         return arr;
     },
 
-    payedMonth(progress) {
+    payedMonth(progress, studentType) {
         const month = (new Date()).getMonth()
 
-        return (progress[switchMonth(month)] === (50 || null)
-            ? true
-            : false)
+        return studentType === 'contract' ?
+            (progress[switchMonth(month)] === (50 || null)
+                ? true
+                : false) 
+            : null
     }
 
 
