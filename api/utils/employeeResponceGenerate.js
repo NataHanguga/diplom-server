@@ -53,7 +53,7 @@ const dDPercent = 0.95;
 const position = [
     { label: 'director', salary: '4797,1' },
     { label: 'deputy director', salary: (4797, 1 * dDPercent).toString() },
-    { label: 'cleaner', salary: '2094' },
+    { label: 'cleaner', salary: '2094' }, //0.5030
     { label: 'dreasser', salary: '2094' },
     { label: 'technic', salary: '2958' },
     { label: 'complex maintenance', salary: '2613' }
@@ -202,21 +202,21 @@ function staffList(employee) {
     let arr = []
 
         console.log(p.label);
-        employee.forEach(e => {
-            let employ
-            let count = 0
-            if (e.position === 'teacher') {
-                employ = employee.filter(e => {
-                    position.forEach(p => 
-                        return(e.additionalPosition === p.label);
-                })
-                ).forEach(e => count++)
-            } else {
-                employ = employee.filter(e => e.position === p.label).forEach(e => count++)
+        // employee.forEach(e => {
+        //     let employ
+        //     let count = 0
+        //     if (e.position === 'teacher') {
+        //         employ = employee.filter(e => {
+        //             position.forEach(p => 
+        //                 return(e.additionalPosition === p.label);
+        //         })
+        //         ).forEach(e => count++)
+        //     } else {
+        //         employ = employee.filter(e => e.position === p.label).forEach(e => count++)
 
-            }
-        console.log(count, employ, e.fullName)
-        })
+        //     }
+        // console.log(count, employ, e.fullName)
+        // })
 
 
 }

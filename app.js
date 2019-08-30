@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const teacherRoutes = require('./api/routes/teachers')
 const studentRoutes = require('./api/routes/students')
 const employeeRoutes = require('./api/routes/employee')
+const settingRoutes = require('./api/routes/setting')
+
 const url = 
     'mongodb+srv://admin:'+ 
     process.env.MONGO_ATLAS_PW +
@@ -40,7 +42,7 @@ app.use((req, res, next) => {
 app.use('/teachers', teacherRoutes)
 app.use('/students', studentRoutes)
 app.use('/employee', employeeRoutes)
-
+app.use('/setting', settingRoutes)
 
 // error hendler
 app.use((req, res, next) => {
