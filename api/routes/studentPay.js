@@ -4,6 +4,6 @@ const {getPay, editPay} = require('../utils/studentPayStorage')
 
 router
     .get('/', getPay)
-    .patch('/', editPay)
+    .patch('/:pay', editPay)
 
 module.exports = router

@@ -8,10 +8,14 @@ module.exports = {
         res.send(data);
     },
 
+    getPayAsConstant() {
+        return data.pay;
+    },
+
     editPay(req, res, next) {
         const {pay} = req.body;
-        data.push({pay: pay})
-        fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
+        // data.push({pay: pay})
+        fs.writeFileSync(propData, JSON.stringify({pay: pay}), 'utf-8')
         res.send(data) 
     }
 }

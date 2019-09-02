@@ -12,59 +12,64 @@ module.exports = {
     getAddsForTable() { return data },
 
     createAdd(req, res, next) {
-        const {label} = req.body;
+        const { label } = req.body;
         const newPercent = {
             label: label,
+            isUsed: false,
             id: Date.now()
         }
 
         if (!findSameName(label)) {
             data.push(newPercent)
             fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
-            res.send(data) 
+            res.send(data)
         } else {
             res.status(401).json({
                 message: 'This education label already exist'
             })
         }
-       
+
     },
 
-    editAdd(req, res,next) {
-        const {id} = req.params;
-        const {label} = req.body
+    editAdd(req, res, next) {
+        const { id } = req.params;
+        const { label, isUsed } = req.body
         let status;
 
-            data.forEach(pos => {
-                if (pos.id === +id) {
+        data.forEach(pos => {
+            if (pos.id === +id) {
+                if (label) {
                     pos.label = label;
-                    status = 1;
-                } else {
-                    status = 0
+                } else if (isUsed) {
+                    pos.isUsed = isUsed;
                 }
-            })
-            
-            if (!status) {
-                res.status(404).json({
-                    message: 'Nothing founded'
-                })
+                status = 1;
             } else {
-                fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
-                res.send(data) 
-            }       
+                status = 0
+            }
+        })
+
+        if (!status) {
+            res.status(404).json({
+                message: 'Nothing founded'
+            })
+        } else {
+            fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
+            res.send(data)
+        }
     },
 
     deleteAdd(req, res, next) {
-        const {id} = req.params;
+        const { id } = req.params;
 
         let s = data.filter((value) => +value.id !== +id)
-        if(data.length === s.length) {
+        if (data.length === s.length) {
             res.status(404).json({
                 message: 'Nothing founded'
             })
         } else {
             fs.writeFileSync(propData, JSON.stringify(s), 'utf-8')
-            res.send(s) 
+            res.send(s)
         }
     }
 }

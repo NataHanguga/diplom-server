@@ -7,7 +7,9 @@ function findSameName(name) {
     return data.filter(el => el.label === name).length;
 }
 module.exports = {
-    getCategories(req, res, next) { res.send(data) },
+    getCategories(req, res, next) { 
+        res.send(data) 
+    },
 
     getCategoriesForTable() { return data },
 

@@ -1,4 +1,5 @@
-const PAY = 50
+const {getPayAsConstant} = require('./studentPayStorage');
+const PAY = getPayAsConstant();
 
 function generateArray(arrLength, student) {
     const arr = []
@@ -110,7 +111,7 @@ module.exports = {
         const month = (new Date()).getMonth()
 
         return studentType === 'contract' ?
-            (progress[switchMonth(month)] === (50 || null)
+            (progress[switchMonth(month)] === (PAY || null)
                 ? true
                 : false) 
             : null
