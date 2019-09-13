@@ -13,12 +13,14 @@ module.exports = {
 
     createEducation(req, res, next) {
         const {label} = req.body;
-        const newPercent = {
-            label: label,
-            id: Date.now()
-        }
+        console.log(label)
 
-        if (!findSameName(label)) {
+        if (label) {
+            const newPercent = {
+                label: label,
+                id: Date.now()
+            }
+
             data.push(newPercent)
             fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
             res.send(data) 
@@ -35,15 +37,14 @@ module.exports = {
         const {label} = req.body
         let status;
 
-            data.forEach(pos => {
-                if (pos.id === +id) {
-                    pos.label = label;
-                    status = 1;
-                } else {
-                    status = 0
-                }
-            })
-            
+        status = data.filter(pos => {
+            if (+pos.id !== +id) {
+                return 0;
+            } else {
+                pos.label = label;
+                return 1
+            }
+        })
             if (!status) {
                 res.status(404).json({
                     message: 'Nothing founded'

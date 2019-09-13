@@ -12,7 +12,7 @@ module.exports = {
     getGradesForTable() { return data },
 
     createGrade(req, res, next) {
-        const {category, grade, salary} = req.body;
+        const { category, grade, salary } = req.body;
         const newPosition = {
             category: category,
             grade: grade,
@@ -23,59 +23,59 @@ module.exports = {
         if (!findSameName(category)) {
             data.push(newPosition)
             fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
-            res.send(data) 
+            res.send(data)
         } else {
             res.status(401).json({
                 message: 'This category already exist'
             })
         }
-        
-       
+
+
     },
 
-    editGrade(req, res,next) {
-        const {name} = req.params
-        const {category, grade, salary} = req.body
+    editGrade(req, res, next) {
+        const { id } = req.params
+        const { category, grade, salary } = req.body
         let status;
 
-        if (name === category && !findSameName(category)) {
-            data.forEach(pos => {
-                if (pos.category === name) {
-                    pos.category = category;
-                    pos.grade = grade;
-                    pos.salary = salary;
-                    status = 1;
-                } else {
-                    status = 0
-                }
-            })
-            if (!status) {
-                res.status(404).json({
-                    message: 'Nothing founded'
-                })
+        status = data.filter(pos => {
+            if (+pos.id !== +id) {
+                return 0;
             } else {
-                fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
-                res.send(data) 
+                pos.category = category;
+                pos.grade = grade;
+                pos.salary = salary;
+                return 1
             }
-        } else {
-            res.status(401).json({
-                message: 'This category already exist'
+        })
+
+        if (!status) {
+            res.status(404).json({
+                message: 'Nothing founded'
             })
+        } else {
+            fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
+            res.send(data)
         }
-        
+        // } else {
+        //     res.status(401).json({
+        //         message: 'This category already exist'
+        //     })
+        // }
+
     },
 
     deleteGrade(req, res, next) {
-        const {id} = req.params
+        const { id } = req.params
 
         let s = data.filter((value) => value.id !== +id)
-        if(data.length === s.length) {
+        if (data.length === s.length) {
             res.status(404).json({
                 message: 'Nothing founded'
             })
         } else {
             fs.writeFileSync(propData, JSON.stringify(s), 'utf-8')
-            res.send(s) 
+            res.send(s)
         }
     }
 }

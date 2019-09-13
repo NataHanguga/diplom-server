@@ -5,7 +5,7 @@ const {getGrades, createGrade, editGrade, deleteGrade} = require('../utils/grade
 router
     .get('/', getGrades)
     .post('/', createGrade)
-    .patch('/:name', editGrade)
+    .patch('/:id', editGrade)
     .delete('/:id', deleteGrade)
 
 module.exports = router
