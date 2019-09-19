@@ -5,7 +5,7 @@ const data = JSON.parse(fs.readFileSync(propData, 'utf-8'));
 
 module.exports = {
     getPay(req, res, next) {
-        res.send(data);
+        res.send([data]);
     },
 
     getPayAsConstant() {
@@ -15,7 +15,7 @@ module.exports = {
     editPay(req, res, next) {
         const {pay} = req.body;
         // data.push({pay: pay})
-        fs.writeFileSync(propData, JSON.stringify({pay: pay}), 'utf-8')
+        fs.writeFileSync(propData, JSON.stringify([{pay: pay}]), 'utf-8')
         res.send(data) 
     }
 }

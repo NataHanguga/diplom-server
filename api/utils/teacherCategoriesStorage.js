@@ -33,11 +33,22 @@ module.exports = {
        
     },
 
+    used(id) {
+        data.forEach((value) => {
+            if (+value.id === +id) {
+                value.isUsed = true;
+            } else {
+                value.isUsed = false;
+            }
+        })
+    },
+
     editCategory(req, res,next) {
         const {id} = req.params;
         const {label} = req.body
         let status;
-
+        console.log(+pos.id === +id, +pos.id, +id)
+        res.send(label)
             data.forEach(pos => {
                 if (+pos.id === +id) {
                     pos.label = label;

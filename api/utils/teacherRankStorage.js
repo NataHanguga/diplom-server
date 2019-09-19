@@ -10,10 +10,22 @@ module.exports = {
 
     getRanksForTable() { return data },
 
+    used(id) {
+        data.forEach((value) => {
+            if (+value.id === +id) {
+                value.isUsed = true;
+            } else {
+                value.isUsed = false;
+            }
+        })
+    },
+
     createRank(req, res, next) {
-        const {label} = req.body;
+        const {label, value} = req.body;
         const newPercent = {
             label: label,
+            isUsed: false,
+            value: value,
             id: Date.now()
         }
 
@@ -31,18 +43,18 @@ module.exports = {
 
     editRank(req, res,next) {
         const {id} = req.params
-        const {label} = req.body
+        const {label, value} = req.body
         let status;
 
             data.forEach(pos => {
                 if (+pos.id === +id) {
                     pos.label = label;
+                    pos.value = value;
                     status = 1;
                 } else {
                     status = 0
                 }
             })
-            
             if (!status) {
                 res.status(404).json({
                     message: 'Nothing founded'

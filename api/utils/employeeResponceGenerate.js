@@ -36,6 +36,8 @@
             { label: 'deputy departament', value: 'deputy departament' }
         ];
 */
+
+const {getRanksForTable, used} = require('./teacherRankStorage');
 const grade = [
     { category: 'teacher high cat', grade: '14', salary: '5113.9' },
     { category: 'teacher first cat', grade: '13', salary: '4797.1' },
@@ -45,10 +47,11 @@ const grade = [
 
 ];
 
-const teachRank = [
-    { label: 'methodist', value: '0.15' },
-    { label: 'senior teacher', value: '0.1' }
-];
+const teachRank = getRanksForTable();
+// [
+//     { label: 'methodist', value: '0.15' },
+//     { label: 'senior teacher', value: '0.1' }
+// ];
 const dDPercent = 0.95;
 const position = [
     { label: 'director', salary: '4797,1' },
@@ -74,8 +77,10 @@ function getTarifTeachersList(employee) {
             }
         })
         teachRank.forEach(t => {
+            console.log(t, e.teachRank)
             if (t.label === e.teachRank) {
-                e.teachRankRise = roundNumber(t.value * e.salary)
+                used(t.id)
+                e.teachRankRise = roundNumber((+t.value/100) * +e.salary)
             }
         })
 
@@ -227,11 +232,11 @@ module.exports = {
     getEmployeesArray(employee) {
         let teachers = employee.filter(empl => empl.position === 'teacher')
         getTarifTeachersList(teachers)
-        midlleSalary(teachers)
-        deputyDepartmentList(teachers)
-        let repaier = employee.filter(e => e.position === 'repaier')
-        repaierTable(repaier)
-        staffList(employee)
+        // midlleSalary(teachers)
+        // deputyDepartmentList(teachers)
+        // let repaier = employee.filter(e => e.position === 'repaier')
+        // repaierTable(repaier)
+        // staffList(employee)
         return employee;
     }
 

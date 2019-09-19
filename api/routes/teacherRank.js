@@ -5,7 +5,7 @@ const {getRanks, createRank, editRank, deleteRank} = require('../utils/teacherRa
 router
     .get('/', getRanks)
     .post('/', createRank)
-    .patch('/', editRank)
-    .delete('/', deleteRank)
+    .patch('/:id', editRank)
+    .delete('/:id', deleteRank)
 
 module.exports = router

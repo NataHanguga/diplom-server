@@ -37,7 +37,7 @@ module.exports = {
         const {position, salary} = req.body
         let status;
 
-        if (name === position && !findSameName(position)) {
+        // if (+id === position && !findSameName(position)) {
             data.forEach(pos => {
                 if (+pos.id === +id) {
                     pos.position = position;
@@ -55,11 +55,11 @@ module.exports = {
                 fs.writeFileSync(propData, JSON.stringify(data), 'utf-8')
                 res.send(data) 
             }
-        } else {
-            res.status(401).json({
-                message: 'This position already exist'
-            })
-        }
+        // } else {
+        //     res.status(401).json({
+        //         message: 'This position already exist'
+        //     })
+        // }
         
     },
 
@@ -67,13 +67,14 @@ module.exports = {
         const {id} = req.params
 
         let s = data.filter((value) => value.id !== +id)
+        console.log(s, data)
         if(data.length === s.length) {
             res.status(404).json({
                 message: 'Nothing founded'
             })
         } else {
             fs.writeFileSync(propData, JSON.stringify(s), 'utf-8')
-            res.send(data) 
+            res.send(s) 
         }
     }
 }
