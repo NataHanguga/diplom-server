@@ -2,41 +2,20 @@ const mongoose = require('mongoose')
 const { progressBar, payedMonth } = require('../utils/progressBar')
 const Teacher = require('../models/teacher')
 
-function customStudentArray(result) {
-  let arr = [];
-  result.students.forEach(student => {
-    arr.push({
-      id: student._id,
-      fullName: student.fullName,
-      pay: student.pay,
-      classNumber: student.classNumber,
-      studentType: student.studentType,
-      startDate: student.startDate,
-      progress: progressBar(student),
-      payed: payedMonth(progressBar(student))
-    })
-  })
-
-  return arr
-}
-
 module.exports = {
   getStudentsbyTeacherId(req, res, next) {
-    const { teacherId } = req.params;
-    const month = req.body.month
     Teacher
-      .findById(teacherId)
+      .findById(req.params.teacherId)
       .select('students')
       .exec()
       .then(result => {
-        if (result)
-          res.status(200).json({
-            studentsArr: customStudentArray(result, month)
-          })
-        else
+        if (result) {
+        res.status(200).json(result.students)
+        } else {
           res.status(404).json({
             message: 'No valid entry found for provided ID'
           })
+        }
       })
       .catch(error =>
         res.status(500).json({
@@ -67,18 +46,15 @@ module.exports = {
           }
         },
         { 'new': true })
+      .select('students')
       .exec()
       .then(result => {
-        console.log(result)
-
-        if (result)
-          res.status(200).json({
-            studentsArr: customStudentArray(result)
-          })
-        else
+        if (result) {
+          res.status(200).json(result.students)
+        } else{
           res.status(404).json({
             message: 'No valid entry found for provided ID'
-          })
+          })}
       })
       .catch(error =>
         res.status(500).json({
@@ -109,10 +85,11 @@ module.exports = {
         },
         { 'new': true }
       )
+      .select('students')
       .exec()
       .then(result => {
         if (result) {
-          res.status(200).json(result)
+          res.status(200).json(result.students)
         } else {
           res.status(404).json({
             message: 'No valid entry found for provided ID'
@@ -138,11 +115,11 @@ module.exports = {
         },
         { 'new': true }
       )
-      .select('name students _id')
+      .select('students')
       .exec()
       .then(result => {
         if (result) {
-          res.status(200).json(result)
+          res.status(200).json(result.students)
         } else {
           res.status(404).json({
             message: 'No valid entry found for provided ID'

@@ -26,7 +26,7 @@ function customTeacherArray(result) {
         classNumber: student.classNumber,
         studentType: student.studentType,
         startDate: student.startDate,
-        progress: progressBar(student),
+        progress: student.progress,
         payed: payedMonth(progressBar(student))
       })
     })

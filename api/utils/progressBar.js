@@ -108,7 +108,7 @@ module.exports = {
 
     payedMonth(progress, studentType, findMonth) {
         const month = findMonth ? findMonth : (new Date()).getMonth()
-        console.log(switchMonth(month), progress, studentType)
+        
         return studentType === 'contract' ?
             (progress[switchMonth(month)] === (50 || null)
                 ? true
