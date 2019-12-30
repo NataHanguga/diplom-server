@@ -6,7 +6,9 @@ const studentSchema = mongoose.Schema({
     startDate: { type: String, required: true },
     pay: { type: Number, required: true },
     classNumber: { type: Number, required: true },
-    studentType: { type: String, required: true }
+    studentType: { type: String, required: true },
+    progress: { type: Array },
+    payed: { type: Number }
 })
 
 module.exports = mongoose.model('Student', studentSchema)

@@ -1,6 +1,8 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "ptaha2102",
-        "PORT": "3000"
+        "PORT": "3000",
+        "MY_SALT": "fuckingsult",
+        "MY_JWT_KEY": "happynewyear"
     }
 }
