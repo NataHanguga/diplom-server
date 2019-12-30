@@ -3,14 +3,29 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { check, validatinResult } = require('express-validator')
 
 const User = require('../models/user')
 
-router.post("/signup", (req, res, next) => {
-  User.find({ email: req.body.email })
+router.post("/signup",
+  [
+    check('email', 'Incrrect email').isEmail(),
+    check('password', 'Password is short').isLength(6)
+  ],
+ (req, res, next) => {
+
+  const errors = validatinResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+      message: 'Invalid data'
+    })
+  }
+
+  User.findOne({ email: req.body.email })
     .exec()
     .then(user => {
-      if (user.length >= 1) {
+      if (user) {
         return res.status(409).json({
           message: "Mail exists"
         });
@@ -29,7 +44,7 @@ router.post("/signup", (req, res, next) => {
             });
             user
               .save()
-              .then(result => {
+              .then(() => {
                 res.status(201).json({
                   message: "User created"
                 });
@@ -61,10 +76,10 @@ router.delete("/:userId", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-  User.find({email: req.body.email})
+  User.findOne({email: req.body.email})
   .exec()
   .then(user => {
-    if (!user.length) {
+    if (!user) {
       return res.status(401).json({
         message: 'Auth failed'
       })
