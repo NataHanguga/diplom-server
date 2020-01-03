@@ -2,22 +2,11 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 
 const teacherRoutes = require('./api/routes/teachers')
 const studentRoutes = require('./api/routes/students')
 const userRoutes = require('./api/routes/user')
-
-const url = 
-    'mongodb+srv://admin:'+ 
-    process.env.MONGO_ATLAS_PW +
-    '@workers-hya0b.mongodb.net/test?retryWrites=true&w=majority'
-
-mongoose.connect(url, {useNewUrlParser: true}, (err, db) => {
-    if (err) console.log('cannot connect to db')
-    else console.log('create connection to db')
-})
-mongoose.set('useFindAndModify', false);
+const dbRoutes = require('./api/routes/mongo')
 
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: false}))
@@ -38,6 +27,7 @@ app.use((req, res, next) => {
 })
 
 //connect routes 
+app.use('/db', dbRoutes)
 app.use('/teachers', teacherRoutes)
 app.use('/students', studentRoutes)
 app.use('/user', userRoutes)
